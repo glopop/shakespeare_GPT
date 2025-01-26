@@ -7,12 +7,12 @@ An n-gram text generator designed to imitate the style of William Shakespeare. T
 1. [Project Overview](#project-overview)
 2. [Installation](#installation)
 3. [Tasks](#tasks)
-   3.1 [Task 1: Data Preparation](#task-1-data-preparation)
-   3.2 [Task 2: Probability Distribution](#task-2-probability-distribution)
-   3.3 [Task 3: Sampling Next Token](#task-3-sampling--next-token)
-   3.4 [Task 4: Generating Text](#task-4-generating-text-(yay1))
-   3.5 [Task 5: Exploration of N-Grams](#task-5-exploring-different-n--grams)
-   3.6 [Task 6: Human Evaluation](#task-6-human-evaluation)
+   - 3.1 [Task 1: Data Preparation](#task-1-data-preparation)
+   - 3.2 [Task 2: Probability Distribution](#task-2-probability-distribution)
+   - 3.3 [Task 3: Sampling Next Token](#task-3-sampling-next-token)
+   - 3.4 [Task 4: Generating Text](#task-4-generating-text-yay)
+   - 3.5 [Task 5: Exploration of N-Grams](#task-5-exploration-of-different-n-grams)
+   - 3.6 [Task 6: Human Evaluation](#task-6-human-evaluation)
 
 
 ## PROJECT OVERVIEW
