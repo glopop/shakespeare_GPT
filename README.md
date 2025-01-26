@@ -7,7 +7,7 @@ An n-gram text generator designed to imitate the style of William Shakespeare. T
 1. [Project Overview](#project-overview)
 2. [Installation](#installation)
 3. [Tasks](#tasks)
-   3.1 [TASK 1: DATA PREPARATION](#task-1-data-preparation)
+   3.1 [Task 1: Data Preparation](#task-1-data-preparation)
 
 
 ## PROJECT OVERVIEW
