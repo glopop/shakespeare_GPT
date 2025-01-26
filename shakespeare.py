@@ -54,7 +54,20 @@ def build_bigram_next_token_counts(tokens):
     
     return from_bigram_to_next_token_counts
 
-#---------------MAIN EXECUTION------------------------
+#---------------BIGRAM NEXT TOKEN PROBABILITY------------------------
+
+def calculate_bigram_next_token_probs(from_bigram_to_next_token_counts):
+    from_bigram_to_next_token_probs = defaultdict(dict)
+    
+    for bigram, next_token_counts in from_bigram_to_next_token_counts.items():
+        total_count = sum(next_token_counts.values())  # Total occurrences of the bigram
+        next_token_probs = {token: count / total_count for token, count in next_token_counts.items()}
+        from_bigram_to_next_token_probs[bigram] = next_token_probs  # Store probabilities
+    
+    return from_bigram_to_next_token_probs
+
+
+#---------------MAIN------------------------
 
 # Filepath to Shakespeare's works
 filepath = "shakespeare_sonnet.txt"
@@ -80,3 +93,10 @@ from_bigram_to_next_token_counts = build_bigram_next_token_counts(tokens)
 print("\nBigram to next-token counts:")
 for bigram, next_tokens in list(from_bigram_to_next_token_counts.items())[:5]:  # Display first 5 bigrams
     print(f"{bigram}: {dict(next_tokens)}")
+    
+from_bigram_to_next_token_probs = calculate_bigram_next_token_probs(from_bigram_to_next_token_counts)
+
+# Display bigram-next-token probabilities
+print("\nBigram to next-token probabilities:")
+for bigram, next_tokens in list(from_bigram_to_next_token_probs.items())[:5]:  # Display first 5 bigrams
+    print(f"{bigram}: {next_tokens}")
