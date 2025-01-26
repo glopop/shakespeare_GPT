@@ -1,23 +1,17 @@
 import re
 
 def preprocess_text(text):
-    # Convert text to lowercase
     text = text.lower()
-    
-    # Remove punctuation using regular expressions
-    # This removes everything except letters, numbers, and spaces
-    text = re.sub(r"[^\w\s]", "", text)
-    
-    # Split the text into tokens (words) based on spaces
-    tokens = text.split()
-    
+    text = re.sub(r"[^\w\s']", "", text)  # Remove punctuation (preserve apostrophes)
+    tokens = text.split()  # Split into words
     return tokens
 
-# Load the text file
 def load_text(filepath):
-    """Loads text from a file."""
     with open(filepath, 'r', encoding='utf-8') as file:
         return file.read()
+
+def create_bigrams(tokens):
+    return [(tokens[i], tokens[i + 1]) for i in range(len(tokens) - 1)]
 
 # Filepath to Shakespeare's works
 filepath = "shakespeare.txt"
@@ -26,7 +20,11 @@ filepath = "shakespeare.txt"
 raw_text = load_text(filepath)
 tokens = preprocess_text(raw_text)
 
+# Create bigrams
+bigrams = create_bigrams(tokens)
+
 # Display results
 print(f"Total number of tokens: {len(tokens)}")
 print(f"First 20 tokens: {tokens[:20]}")
-
+print(f"Total number of bigrams: {len(bigrams)}")
+print(f"First 10 bigrams: {bigrams[:10]}")
