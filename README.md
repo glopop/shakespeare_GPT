@@ -1,4 +1,4 @@
-# shakespeare_GPT 
+# Shakespeare_GPT 
 Shakespearean Text Generator
 
 An n-gram text generator designed to imitate the style of William Shakespeare. This project processes a corpus of Shakespeare’s works, builds probability distributions over bigrams (and optionally trigrams, quadgrams, etc.), and generates new text using weighted random sampling.
