@@ -1,5 +1,6 @@
 import re
 from collections import defaultdict
+import random
 
 #---------------LOAD & PREPROCESS DATA------------------------
 def load_and_preprocess_text(filepath, start_marker="From fairest creatures we desire increase,"):
@@ -67,7 +68,19 @@ def calculate_bigram_next_token_probs(from_bigram_to_next_token_counts):
     
     return from_bigram_to_next_token_probs
 
+#---------------SAMPLING------------------------
 
+def sample_next_token(bigram, from_bigram_to_next_token_probs):
+    if bigram not in from_bigram_to_next_token_probs:
+        return None  # Return None if the bigram is not found
+
+    next_token_probs = from_bigram_to_next_token_probs[bigram]
+    tokens = list(next_token_probs.keys())
+    probabilities = list(next_token_probs.values())
+    
+    # Use random.choices() to sample the next token
+    next_token = random.choices(tokens, weights=probabilities, k=1)[0]
+    return next_token
 
 #---------------MAIN------------------------
 
@@ -104,3 +117,11 @@ print("\nBigram to next-token probabilities:")
 for bigram, next_tokens in list(from_bigram_to_next_token_probs.items())[:5]:  # Display first 5 bigrams
     print(f"{bigram}: {next_tokens}")
 
+# Test the sample_next_token function
+test_bigram = ('to', 'be')
+
+# Sample the next token based on the probabilities
+next_token = sample_next_token(test_bigram, from_bigram_to_next_token_probs)
+
+# Display the sampled token
+print(f"Next token after {test_bigram}: {next_token}")  
