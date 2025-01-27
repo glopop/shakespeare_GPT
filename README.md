@@ -33,7 +33,11 @@ Key Steps:
 ## INSTALLATION
 Python 3.7+ (preferable).
 
-pip for installing dependencies.
+pip for installing dependencies & imports
+
+   `import re`
+
+   `from collections import defaultdict`
 
 A text file containing Shakespeare’s works (shakespeare.txt). Make sure you have the right to use it for this project.
 
