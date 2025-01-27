@@ -61,10 +61,12 @@ def calculate_bigram_next_token_probs(from_bigram_to_next_token_counts):
     
     for bigram, next_token_counts in from_bigram_to_next_token_counts.items():
         total_count = sum(next_token_counts.values())  # Total occurrences of the bigram
-        next_token_probs = {token: count / total_count for token, count in next_token_counts.items()}
+        # Calculate probability for each next token
+        next_token_probs = {token: round(count / total_count, 2) for token, count in next_token_counts.items()}
         from_bigram_to_next_token_probs[bigram] = next_token_probs  # Store probabilities
     
     return from_bigram_to_next_token_probs
+
 
 
 #---------------MAIN------------------------
@@ -94,9 +96,11 @@ print("\nBigram to next-token counts:")
 for bigram, next_tokens in list(from_bigram_to_next_token_counts.items())[:5]:  # Display first 5 bigrams
     print(f"{bigram}: {dict(next_tokens)}")
     
+# Calculate probabilities from bigram-to-next-token counts
 from_bigram_to_next_token_probs = calculate_bigram_next_token_probs(from_bigram_to_next_token_counts)
 
 # Display bigram-next-token probabilities
 print("\nBigram to next-token probabilities:")
 for bigram, next_tokens in list(from_bigram_to_next_token_probs.items())[:5]:  # Display first 5 bigrams
     print(f"{bigram}: {next_tokens}")
+
