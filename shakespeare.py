@@ -82,6 +82,32 @@ def sample_next_token(bigram, from_bigram_to_next_token_probs):
     next_token = random.choices(tokens, weights=probabilities, k=1)[0]
     return next_token
 
+#---------------TEXT GENERATION------------------------
+
+def generate_text_from_bigram(initial_bigram, word_count, from_bigram_to_next_token_probs):
+    
+    # Start with the initial bigram
+    current_bigram = initial_bigram
+    generated_words = list(current_bigram)
+    
+    # Generate the specified number of words
+    for _ in range(word_count - 2):  # Subtract 2 because the initial bigram already has two words
+        next_token = sample_next_token(current_bigram, from_bigram_to_next_token_probs)
+        
+        # Stop generation if no next token is found
+        if not next_token:
+            break
+        
+        # Add the sampled token to the list of generated words
+        generated_words.append(next_token)
+        
+        # Update the current bigram
+        current_bigram = (current_bigram[1], next_token)
+    
+    # Join the generated words into a string and return
+    return " ".join(generated_words)
+
+
 #---------------MAIN------------------------
 
 # Filepath to Shakespeare's works
@@ -125,3 +151,12 @@ next_token = sample_next_token(test_bigram, from_bigram_to_next_token_probs)
 
 # Display the sampled token
 print(f"Next token after {test_bigram}: {next_token}")  
+
+# Generate text starting from an initial bigram
+initial_bigram = ('to', 'be')
+word_count = 50
+
+generated_text = generate_text_from_bigram(initial_bigram, word_count, from_bigram_to_next_token_probs)
+
+# Display the generated text
+print(f"Generated text:\n{generated_text}")
