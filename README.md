@@ -20,15 +20,15 @@ The goal of this project is to make a text generation model that works with 2-gr
 
 Key Steps:
 
-Preprocessing: Convert text to lowercase, remove punctuation, split into tokens.
+1. Preprocessing: Convert text to lowercase, remove punctuation, split into tokens.
 
-N-Gram Modeling: Build dictionaries mapping n-grams to possible next tokens.
+2. N-Gram Modeling: Build dictionaries mapping n-grams to possible next tokens.
 
-Probability Distributions: Convert raw counts to probabilities.
+3. Probability Distributions: Convert raw counts to probabilities.
 
-Sampling: Use weighted random choice to select the next token.
+4. Sampling: Use weighted random choice to select the next token.
 
-Generation: Iteratively produce text from an initial context.
+5. Generation: Iteratively produce text from an initial context.
 
 ## INSTALLATION
 Python 3.7+ (preferable).
