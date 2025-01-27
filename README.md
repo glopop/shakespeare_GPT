@@ -39,7 +39,7 @@ pip for installing dependencies & imports
 
    `from collections import defaultdict`
 
-A text file containing Shakespeare’s works (shakespeare.txt). Make sure you have the right to use it for this project.
+A text file containing Shakespeare’s works (shakespeare.txt). Make sure you have the right to use it for this project. For my project, I found the website [Gutenberg](#https://www.gutenberg.org/) where anyone can access a wide variety of texts from many authors that are free to use.
 
 ## TASKS
 ### TASK 1: DATA PREPARATION 📝
