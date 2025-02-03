@@ -9,7 +9,7 @@ from shakespeare import (
 class TestShakespeareGPT(unittest.TestCase):
 
     def setUp(self):
-        """Set up a small sample text for testing."""
+        """sample text for testing"""
         self.sample_text = "to be or not to be that is the question"
         self.tokens = preprocess_text(self.sample_text)
         self.bigrams = create_bigrams(self.tokens)
