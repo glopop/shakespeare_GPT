@@ -5,6 +5,7 @@ from shakespeare import (
     sample_next_token, generate_text_from_bigram 
 )
 
+
 class TestShakespeareGPT(unittest.TestCase):
 
     def setUp(self):
