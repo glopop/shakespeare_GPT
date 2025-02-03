@@ -13,7 +13,7 @@ An n-gram text generator designed to imitate the style of William Shakespeare. T
    - 3.4 [Task 4: Generating Text](#task-4-generating-text-yay-🪩)
    - 3.5 [Task 5: Exploration of N-Grams](#task-5-exploration-of-different-n-grams-🚂)
    - 3.6 [Task 6: Human Evaluation](#task-6-human-evaluation-⛹️‍♀️)
-4. [Feedback](#feeback)
+4. [Feedback](#project-feedback-and-evaluation)
 
 
 ## PROJECT OVERVIEW
