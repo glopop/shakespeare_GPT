@@ -3,108 +3,132 @@ from collections import defaultdict
 import random
 
 #---------------LOAD & PREPROCESS DATA------------------------
+# function to load and preprocess the text file
 def load_and_preprocess_text(filepath, start_marker="From fairest creatures we desire increase,"):
-
     try:
+        # open the file in read mode
         with open(filepath, 'r', encoding='utf-8') as file:
             text = file.read()
         
-        # Find the starting point in the text
+        # find the starting point of shakespeare 
         start_index = text.find(start_marker)
         if start_index != -1:
-            text = text[start_index + len(start_marker):]  # Skip to the relevant content
+            # text to start from the point that we need
+            text = text[start_index + len(start_marker):]
         else:
-            print(f"Start '{start_marker}' not found. Processing entire file.")
+            # if we cant find the marker, print out this message
+            print(f"start '{start_marker}' not found so processing entire file.")
         
-        # Preprocess the text
+        # lowercase
         text = text.lower()
-        text = re.sub(r"[^\w\s']", "", text)  # Remove punctuation except apostrophes
-        tokens = text.split()  # Split into tokens
+        # remove punctuation except apostrophes
+        text = re.sub(r"[^\w\s']", "", text)
+        # split the text into tokens
+        tokens = text.split()
         
+        # return the list of tokens
         return tokens
     except FileNotFoundError:
-        print(f"Error: The file '{filepath}' was not found.")
+        # handle the case when file is not found
+        print(f"error: the file '{filepath}' was not found.")
         return []
     except Exception as e:
-        print(f"An error occurred: {e}")
+        # anyother exceptions
+        print(f"an error occurred: {e}")
         return []
 
+# function to preprocess plain text
 def preprocess_text(text):
+    # lowercase
     text = text.lower()
-    text = re.sub(r"[^\w\s']", "", text)  # Remove punctuation (preserve apostrophes)
-    tokens = text.split()  # Split into words
+    # remove punctuation except apostrophes
+    text = re.sub(r"[^\w\s']", "", text)
+    # split the text into tokens
+    tokens = text.split()
+    # return the tokens
     return tokens
 
+# function to load text from a file
 def load_text(filepath):
+    # open the file and read its contents
     with open(filepath, 'r', encoding='utf-8') as file:
         return file.read()
 
+# function to create bigrams from tokens
 def create_bigrams(tokens):
+    # generate bigrams using consecutive tokens
     return [(tokens[i], tokens[i + 1]) for i in range(len(tokens) - 1)]
 
 #---------------BIGRAM NEXT TOKEN------------------------
 
+# function to build bigram next token counts
 def build_bigram_next_token_counts(tokens):
+    # create a nested dictionary to store counts
     from_bigram_to_next_token_counts = defaultdict(lambda: defaultdict(int))
     
-    # Iterate through the tokens to build the bigram -> next token counts
-    for i in range(len(tokens) - 2):  # Stop at len(tokens) - 2 to include the next token
-        bigram = (tokens[i], tokens[i + 1])  # Current bigram
-        next_token = tokens[i + 2]  # The token that follows the bigram
-        from_bigram_to_next_token_counts[bigram][next_token] += 1  # Increment count
+    # iterate through tokens to count next tokens for each bigram
+    for i in range(len(tokens) - 2):
+        bigram = (tokens[i], tokens[i + 1])  # current bigram
+        next_token = tokens[i + 2]  # token following the bigram
+        from_bigram_to_next_token_counts[bigram][next_token] += 1  # increment 
     
+    # return the dictionary of bigram counts
     return from_bigram_to_next_token_counts
 
 #---------------BIGRAM NEXT TOKEN PROBABILITY------------------------
 
+# function to calculate bigram next token probabilities
 def calculate_bigram_next_token_probs(from_bigram_to_next_token_counts):
+    # create a dictionary to store probabilities
     from_bigram_to_next_token_probs = defaultdict(dict)
     
+    # iterate through bigram counts to calculate probabilities
     for bigram, next_token_counts in from_bigram_to_next_token_counts.items():
-        total_count = sum(next_token_counts.values())  # Total occurrences of the bigram
-        # Calculate probability for each next token
+        total_count = sum(next_token_counts.values())  # total occurrences of the bigram
+        # calculate probability for each next token
         next_token_probs = {token: round(count / total_count, 2) for token, count in next_token_counts.items()}
-        from_bigram_to_next_token_probs[bigram] = next_token_probs  # Store probabilities
+        from_bigram_to_next_token_probs[bigram] = next_token_probs  # store probabilities
     
+    # return the dictionary of probabilities
     return from_bigram_to_next_token_probs
 
 #---------------SAMPLING------------------------
 
+# function to sample the next token based on probabilities
 def sample_next_token(bigram, from_bigram_to_next_token_probs):
+    # check if the bigram exists in the dictionary
     if bigram not in from_bigram_to_next_token_probs:
-        return None  # Return None if the bigram is not found
+        return None  # not found
 
+    # retrieve tokens and probabilities for the bigram
     next_token_probs = from_bigram_to_next_token_probs[bigram]
     tokens = list(next_token_probs.keys())
     probabilities = list(next_token_probs.values())
     
-    # Use random.choices() to sample the next token
+    # sample the next token using weighted random choice
     next_token = random.choices(tokens, weights=probabilities, k=1)[0]
     return next_token
 
 #---------------TEXT GENERATION------------------------
 
+# function to generate text starting from a bigram
 def generate_text_from_bigram(initial_bigram, word_count, from_bigram_to_next_token_probs):
-    
-    # Start with the initial bigram
+    # initialize the current bigram and generated words
     current_bigram = initial_bigram
     generated_words = list(current_bigram)
     
-    # Generate the specified number of words
-    for _ in range(word_count - 2):  # Subtract 2 because the initial bigram already has two words
+    # generate the specified number of words
+    for _ in range(word_count - 2):  # subtract 2 because the initial bigram has two words
         next_token = sample_next_token(current_bigram, from_bigram_to_next_token_probs)
-        
-        # Stop generation if no next token is found
+        # stop generation if no next token is found
         if not next_token:
             break
-        
-        # Add the sampled token to the list of generated words
+        # add the sampled token to the list of words
         generated_words.append(next_token)
-        
-        # Update the current bigram
+        # update the current bigram
         current_bigram = (current_bigram[1], next_token)
-    
-    # Join the generated words into a string and return
+        
+        # join and return the generated text
     return " ".join(generated_words)
 
 #---------------BUILD TRIGRAM------------------------
@@ -194,72 +218,72 @@ def generate_text_from_quadgram(initial_quadgram, word_count, from_quadgram_to_n
 
 #---------------MAIN------------------------
 
-# Filepath to Shakespeare's works
-filepath = "shakespeare_sonnet.txt"
+filepath = "shakespeare_sonnet.txt"  # path to the text file
 
-# Load and preprocess the text (skipping content before the marker)
+# load and preprocess the text (done while skipping the extra web info before the marker)
 tokens = load_and_preprocess_text(filepath)
 
-# Display basic token information
-print(f"Total number of tokens: {len(tokens)}")
-print(f"First 50 tokens of the relevant content: {tokens[:50]}")
+# token information
+print(f"total number of tokens: {len(tokens)}")
+print(f"first 50 tokens: {tokens[:50]}")
 
-# Create bigrams
+# create bigrams
 bigrams = create_bigrams(tokens)
 
-# Display bigram information
-print(f"Total number of bigrams: {len(bigrams)}")
-print(f"First 10 bigrams: {bigrams[:10]}")
+# bigram information
+print(f"total number of bigrams: {len(bigrams)}")
+print(f"frist 10 bigrams: {bigrams[:10]}")
 
-# Build the bigram-to-next-token counts dictionary
+# build bigram counts
 from_bigram_to_next_token_counts = build_bigram_next_token_counts(tokens)
 
-# Display bigram-next-token counts
-print("\nBigram to next-token counts:")
-for bigram, next_tokens in list(from_bigram_to_next_token_counts.items())[:5]:  # Display first 5 bigrams
+# show bigram-next-token counts
+print("\n bigram to next-token counts:")
+for bigram, next_tokens in list(from_bigram_to_next_token_counts.items())[:5]:  
     print(f"{bigram}: {dict(next_tokens)}")
     
-# Calculate probabilities from bigram-to-next-token counts
+    
+# calculate bigram probabilities
 from_bigram_to_next_token_probs = calculate_bigram_next_token_probs(from_bigram_to_next_token_counts)
 
-# Display bigram-next-token probabilities
-print("\nBigram to next-token probabilities:")
-for bigram, next_tokens in list(from_bigram_to_next_token_probs.items())[:5]:  # Display first 5 bigrams
+#  bigram-next-token probabilities
+print("\nbigram to next-token probabilities:")
+for bigram, next_tokens in list(from_bigram_to_next_token_probs.items())[:5]:  
     print(f"{bigram}: {next_tokens}")
 
-# Test the sample_next_token function
+# test
 test_bigram = ('to', 'be')
 
-# Sample the next token based on the probabilities
+# sample the next token based on the probabilities
 next_token = sample_next_token(test_bigram, from_bigram_to_next_token_probs)
 
-# Display the sampled token
-print(f"Next token after {test_bigram}: {next_token}")  
+#  sampled token
+print(f"next token after {test_bigram}: {next_token}")  
 
-# Generate text starting from an initial bigram
+#  text starting from an initial bigram
 initial_bigram = ('to', 'be')
 word_count = 50
 
 generated_text = generate_text_from_bigram(initial_bigram, word_count, from_bigram_to_next_token_probs)
 
-# Build trigram and quadgram counts
+# trigram and quadgram counts
 from_trigram_to_next_token_counts = build_trigram_next_token_counts(tokens)
 from_quadgram_to_next_token_counts = build_quadgram_next_token_counts(tokens)
 
-# Calculate trigram and quadgram probabilities
+# trigram and quadgram probabilities
 from_trigram_to_next_token_probs = calculate_trigram_next_token_probs(from_trigram_to_next_token_counts)
 from_quadgram_to_next_token_probs = calculate_quadgram_next_token_probs(from_quadgram_to_next_token_counts)
 
-# Generate text from trigrams
+#text from trigrams
 initial_trigram = ('to', 'be', 'or')
 trigram_generated_text = generate_text_from_trigram(initial_trigram, 50, from_trigram_to_next_token_probs)
-print(f"\nGenerated text from trigram:\n{trigram_generated_text}")
+print(f"\text from trigram:\n{trigram_generated_text}")
 
-# Generate text from quadgrams
+#text from quadgrams
 initial_quadgram = ('to', 'be', 'or', 'not')
 quadgram_generated_text = generate_text_from_quadgram(initial_quadgram, 50, from_quadgram_to_next_token_probs)
-print(f"\nGenerated text from quadgram:\n{quadgram_generated_text}")
+print(f"\text from quadgram:\n{quadgram_generated_text}")
+
+print(f"text:\n{generated_text}")
 
 
-# Display the generated text
-print(f"Generated text:\n{generated_text}")
