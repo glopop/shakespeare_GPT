@@ -72,5 +72,9 @@ implement similar functions for these n-grams: from_trigram_to_next_token_counts
 This is where we decide how our machine is working. We can design a survey to collect feedback from human participants on the quality of the generated text. Then, we can decide how well our model imitates the style of Shakespeare.
 
 ## PROJECT FEEDBACK AND EVALUATION ⚙️
-After completing the project, it is important to gather feedback from users to make sure the generated text is relevant, makes sense and evaluate whether it needs to be reworked or not.
+After completing the project, it is important to gather feedback from users to make sure the generated text is relevant, makes sense and evaluate whether it needs to be reworked or not. Please find attached the link to the survey, done through google forms, as well as the collected results from voluntary participants (5).
+
+Link to survey: https://docs.google.com/forms/d/e/1FAIpQLSes80gkjm4k7BsVnfhvTR909gM1wIRW9SjO8vap_NCBNm0SHw/viewform?usp=header
+
+Link to updated results: https://docs.google.com/spreadsheets/d/1atEwavQVbBsqVkH2wVJlxyhne5Y_egdqDnpc4f9nRYU/edit?resourcekey=&gid=956635605#gid=956635605 
 
