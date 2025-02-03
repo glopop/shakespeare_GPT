@@ -13,6 +13,7 @@ An n-gram text generator designed to imitate the style of William Shakespeare. T
    - 3.4 [Task 4: Generating Text](#task-4-generating-text-yay-🪩)
    - 3.5 [Task 5: Exploration of N-Grams](#task-5-exploration-of-different-n-grams-🚂)
    - 3.6 [Task 6: Human Evaluation](#task-6-human-evaluation-⛹️‍♀️)
+4. [Feedback](#feeback)
 
 
 ## PROJECT OVERVIEW
@@ -69,4 +70,7 @@ implement similar functions for these n-grams: from_trigram_to_next_token_counts
 
 ### TASK 6: HUMAN EVALUATION ⛹️‍♀️
 This is where we decide how our machine is working. We can design a survey to collect feedback from human participants on the quality of the generated text. Then, we can decide how well our model imitates the style of Shakespeare.
+
+## PROJECT FEEDBACK AND EVALUATION
+After completing the project, it is important to gather feedback from users to make sure the generated text is relevant, makes sense and evaluate whether it needs to be reworked or not.
 
