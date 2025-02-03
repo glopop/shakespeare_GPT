@@ -71,6 +71,6 @@ implement similar functions for these n-grams: from_trigram_to_next_token_counts
 ### TASK 6: HUMAN EVALUATION ⛹️‍♀️
 This is where we decide how our machine is working. We can design a survey to collect feedback from human participants on the quality of the generated text. Then, we can decide how well our model imitates the style of Shakespeare.
 
-## PROJECT FEEDBACK AND EVALUATION
+## PROJECT FEEDBACK AND EVALUATION ⚙️
 After completing the project, it is important to gather feedback from users to make sure the generated text is relevant, makes sense and evaluate whether it needs to be reworked or not.
 
